@@ -128,14 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# PyCharm Stuff
-.floo
+#Floobits
 .flooignore
+.floo
 
-
-# Created by https://www.toptal.com/developers/gitignore/api/pycharm
-# Edit at https://www.toptal.com/developers/gitignore?templates=pycharm
-
+#JetBrains
 ### PyCharm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -238,5 +235,3 @@ fabric.properties
 # CodeStream plugin
 # https://plugins.jetbrains.com/plugin/12206-codestream
 .idea/codestream.xml
-
-# End of https://www.toptal.com/developers/gitignore/api/pycharm
