@@ -20,25 +20,25 @@ class Weapon:
 
 
 class Player(ConsoleInput):
-    def __init__(my, name, health, agility, weapon):
-        my.name = name
-        my.health = health
-        my.agility = agility
-        my.weapon = weapon
-        my.coins = 0
-        my.upgrade_cost = 0
+    def __init__(self, name, health, agility, weapon):
+        self.name = name
+        self.health = health
+        self.agility = agility
+        self.weapon = weapon
+        self.coins = 0
+        self.upgrade_cost = 0
 
-    def player_attack(player, p):
-        p.health -= player.weapon.generate_damage()
+    def player_attack(self, p):
+        p.health -= self.weapon.generate_damage()
         if p.health <= 0:
             print(p, "loses")
         else:
             return p.health
 
-    def agility_dodge(player, a):
-        if (player.agility - a.weapon.dexterity) <= 0:
-            player.health -= a.weapon.generate_damage()
-        return player.health
+    def agility_dodge(self, a):
+        if (self.agility - a.weapon.dexterity) <= 0:
+            self.health -= a.weapon.generate_damage()
+        return self.health
 
     def coins_gain(self, t):
         if (self.agility - t.weapon.dexterity) > 0:
