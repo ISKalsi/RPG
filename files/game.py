@@ -42,7 +42,7 @@ while True:
                 attack.animate(screen, 10, 10, K.fps)
 
             elif event.key == pygame.K_x:
-                # anotherTest.animate(screen, 10, 10, k.fps)
+                # anotherTest.animate(screen, 10, 10, K.fps)
                 test.animate(screen, 30, 30, K.fps)
 
     # still animation

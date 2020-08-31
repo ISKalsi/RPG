@@ -1,7 +1,9 @@
-import pygame
-import os
 import json
+import os
 import sys
+
+import pygame
+
 
 class Sprites(pygame.sprite.Sprite):
     mediaPath = os.getcwd() + '/media/asprite'
