@@ -6,7 +6,7 @@ import pygame
 
 
 class Sprites(pygame.sprite.Sprite):
-    mediaPath = os.getcwd() + '/media/asprite'
+    mediaPath = os.getcwd() + '/media'
 
     def __init__(self, name, frames):
         super(Sprites, self).__init__()
@@ -42,7 +42,7 @@ class Sprites(pygame.sprite.Sprite):
 
 
 class SpriteSheet(pygame.sprite.Sprite):
-    mediaPath = os.getcwd() + '/media/asprite'
+    mediaPath = os.getcwd() + '/media'
 
     def __init__(self, name):
         super(SpriteSheet, self).__init__()
