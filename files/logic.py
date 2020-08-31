@@ -19,7 +19,7 @@ class Weapon:
         self.dexterity += level - 1
 
 
-class Player(ConsoleInput):
+class Player():
     def __init__(self, name, health, agility, weapon):
         self.name = name
         self.health = health
