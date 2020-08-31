@@ -3,11 +3,11 @@ from files.ConsoleInput import ConsoleInput
 
 
 class Weapon:
-    def __init__(weapon, name, damage, dexterity):
-        weapon.damage = damage
-        weapon.dexterity = dexterity
-        weapon.name = name
-        weapon.level = 1
+    def __init__(self, name, damage, dexterity):
+        self.damage = damage
+        self.dexterity = dexterity
+        self.name = name
+        self.level = 1
 
     def generate_damage(self):
         return random.randrange(self.damage - 6, self.damage + 6)
