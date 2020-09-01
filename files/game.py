@@ -1,6 +1,6 @@
 import pygame
 import sys
-from files.Sprites import Sprites, SpriteSheet
+from files.Sprites import Sprites, Cloud
 from files.constants import Constants as K
 
 # initialization
@@ -26,6 +26,8 @@ background = pygame.sprite.Group(bg)
 allSprites = pygame.sprite.Group(still)
 triggerOnce = pygame.sprite.Group()
 
+for _ in range(5):
+    background.add(Cloud('cloud samples', 3, 'pixel art samples'))
 # game loop
 index = 0
 while True:
@@ -54,7 +56,7 @@ while True:
                 pass
 
     if triggerOnce:
-        triggerOnce.update(100, 225, True)
+        triggerOnce.update(100, 225, True, 2)
         for sprite in triggerOnce.sprites():
             if not sprite.once:
                 triggerOnce.remove(sprite)
@@ -64,7 +66,7 @@ while True:
             continue
     else:
         # still animation
-        allSprites.update(100, 225)
+        allSprites.update(100, 225, False, 2)
         allSprites.draw(screen)
 
     # final update

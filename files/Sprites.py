@@ -1,7 +1,8 @@
 import json
 import os
-
+from files.constants import Constants as K
 import pygame
+from random import randrange, uniform
 
 
 class SpriteSheet:
@@ -48,7 +49,8 @@ class Sprites(pygame.sprite.Sprite, SpriteSheet):
             self.frames = frames
             if frames != 1:
                 self.images = list(
-                    [pygame.image.load(f'{self.mediaPath}/{name}/{name}{i + 1}.png').convert_alpha() for i in range(frames)]
+                    [pygame.image.load(f'{self.mediaPath}/{name}/{name}{i + 1}.png').convert_alpha() for i in
+                     range(frames)]
                 )
             else:
                 self.images = [pygame.image.load(f'{self.mediaPath}/{name}/{name}.png').convert_alpha()]
@@ -61,16 +63,30 @@ class Sprites(pygame.sprite.Sprite, SpriteSheet):
             f = self.currentFrame = 0
             self.image = self.images[f]
             self.rect: pygame.Rect = self.cells[f]
+            self.originalWidth = self.rect.w
+            self.originalHeight = self.rect.h
+        self.delay = 0
 
-    def scale(self, n=4):
-        for i in range(self.frames):
-            self.cells[i].w *= n
-            self.cells[i].h *= n
+    def scale(self, n=4, fromOriginal=False):
+        if fromOriginal:
+            for i in range(self.frames):
+                self.cells[i].w = self.originalWidth * n
+                self.cells[i].h = self.originalHeight * n
+        else:
+            for i in range(self.frames):
+                self.cells[i].w *= n
+                self.cells[i].h *= n
 
         for i in range(self.frames):
             self.images[i] = pygame.transform.scale(self.images[i], (self.cells[i].w, self.cells[i].h))
 
-    def update(self, x=0, y=0, once=False):
+    def update(self, x=0, y=0, once=False, delay=0):
+        if self.delay:
+            self.delay -= 1
+            return
+        else:
+            self.delay = delay
+
         self.once = once
         f = self.currentFrame = (self.currentFrame + 1) % self.frames
 
@@ -82,3 +98,26 @@ class Sprites(pygame.sprite.Sprite, SpriteSheet):
         self.rect = self.cells[f]
         self.rect.x = x
         self.rect.y = y
+
+
+class Cloud(Sprites):
+    def __init__(self, name, frames=0, path=''):
+        super(Cloud, self).__init__(name, frames, path)
+        self.velocity = 0
+        self.newCloud(frames)
+
+    def newCloud(self, frames):
+        f = self.currentFrame = randrange(frames)
+        self.scale(randrange(5, 7), True)
+        self.image = self.images[f]
+        self.rect = self.cells[f]
+
+        self.velocity = uniform(2, 5)
+        self.rect.y = randrange(50, 200)
+        self.rect.x = -self.rect.w
+
+    def update(self, **kwargs):
+        if self.rect.x >= K.width:
+            self.newCloud(self.frames)
+
+        self.rect.x += self.velocity
