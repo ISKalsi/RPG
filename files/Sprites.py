@@ -5,9 +5,9 @@ import pygame
 
 
 class SpriteSheet:
-    mediaPath = os.getcwd() + '/media'
+    def __init__(self, name, path=""):
+        self.mediaPath = os.getcwd() + '/media/' + path
 
-    def __init__(self, name):
         self._sheet = pygame.image.load(f'{self.mediaPath}/{name}/{name}.png').convert_alpha()
         self._metaData = json.load(open(f'{self.mediaPath}/{name}/{name}.json'))
 
@@ -38,13 +38,13 @@ class SpriteSheet:
 
 
 class Sprites(pygame.sprite.Sprite, SpriteSheet):
-    mediaPath = os.getcwd() + '/media'
-
-    def __init__(self, name, frames=0):
+    def __init__(self, name, frames=0, path=""):
         pygame.sprite.Sprite.__init__(self)
         if frames == 0:
-            SpriteSheet.__init__(self, name)
+            SpriteSheet.__init__(self, name, path)
         else:
+            self.mediaPath = os.getcwd() + '/media/' + path
+
             self.frames = frames
             if frames != 1:
                 self.images = list(

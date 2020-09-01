@@ -50,7 +50,7 @@ while True:
                 triggerOnce.add(attack)
 
             elif event.key == pygame.K_x:
-                triggerOnce.add(anotherTest)
+                triggerOnce.add(test)
                 pass
 
     if triggerOnce:
