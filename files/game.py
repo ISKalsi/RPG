@@ -22,8 +22,9 @@ still.scale(5)
 test.scale(5)
 anotherTest.scale(5)
 
+background = pygame.sprite.Group(bg)
 allSprites = pygame.sprite.Group(still)
-
+triggerOnce = pygame.sprite.Group()
 
 # game loop
 index = 0
@@ -31,8 +32,8 @@ while True:
     clock.tick(K.fps)
 
     # bg
-    bg.update()
-    screen.blit(bg.image, (0, 0), bg.rect)
+    background.update()
+    background.draw(screen)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -46,17 +47,25 @@ while True:
                 sys.exit(0)
 
             elif event.key == pygame.K_SPACE:
-                # attack.animate(screen, 10, 10, K.fps)
-                pass
+                triggerOnce.add(attack)
 
             elif event.key == pygame.K_x:
-                # anotherTest.animate(screen, 10, 10, K.fps)
-                # test.animate(screen, 30, 30, K.fps)
+                triggerOnce.add(anotherTest)
                 pass
 
-    # still animation
-    allSprites.update(100, 100)
-    allSprites.draw(screen)
+    if triggerOnce:
+        triggerOnce.update(100, 225, True)
+        for sprite in triggerOnce.sprites():
+            if not sprite.once:
+                triggerOnce.remove(sprite)
+        if triggerOnce:
+            triggerOnce.draw(screen)
+        else:
+            continue
+    else:
+        # still animation
+        allSprites.update(100, 225)
+        allSprites.draw(screen)
 
     # final update
     pygame.display.update()
