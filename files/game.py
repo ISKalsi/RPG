@@ -16,6 +16,7 @@ attack = Sprites('Stickman_Sword_Attaack', 40)
 still = Sprites('stickman_still')
 test = Sprites('test')
 anotherTest = Sprites('anotherTest', 50)
+coin = Sprites('coin', 12)
 
 attack.scale(5)
 still.scale(5)
