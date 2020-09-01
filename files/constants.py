@@ -1,7 +1,7 @@
 class Constants:
     # screen
-    width = 500
-    height = 500
+    width = 1200
+    height = 600
     fps = 12
 
     # colors

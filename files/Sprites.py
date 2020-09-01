@@ -1,84 +1,84 @@
 import json
 import os
-import sys
 
 import pygame
 
 
-class Sprites(pygame.sprite.Sprite):
-    mediaPath = os.getcwd() + '/media'
-
-    def __init__(self, name, frames):
-        super(Sprites, self).__init__()
-        self.frames = frames
-        self.list = list(
-            [pygame.image.load(f'{self.mediaPath}/{name}/{name}{i + 1}.png').convert_alpha() for i in range(frames)]
-        )
-        self.cells = list(
-            [self.list[i].get_rect() for i in range(frames)]
-        )
-
-    def drawFrame(self, surface, i, x, y):
-        surface.blit(self.list[i], (x, y), self.cells[i])
-
-    def scale(self, n=4):
-        for i in range(self.frames):
-            self.cells[i][2] *= n
-            self.cells[i][3] *= n
-
-        for i in range(self.frames):
-            self.list[i] = pygame.transform.scale(self.list[i], (self.cells[i][2], self.cells[i][3]))
-
-    def animate(self, screen, x, y, fps):
-        for index in range(self.frames):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit(0)
-
-            pygame.time.Clock().tick(fps)
-            screen.fill((255, 255, 255))
-            self.drawFrame(screen, index, x, y)
-            pygame.display.update(self.cells[index])
-
-
-class SpriteSheet(pygame.sprite.Sprite):
+class SpriteSheet:
     mediaPath = os.getcwd() + '/media'
 
     def __init__(self, name):
-        super(SpriteSheet, self).__init__()
-        self.sheet = pygame.image.load(f'{self.mediaPath}/{name}/{name}.png').convert_alpha()
-        self.metaData = json.load(open(f'{self.mediaPath}/{name}/{name}.json'))
+        self._sheet = pygame.image.load(f'{self.mediaPath}/{name}/{name}.png').convert_alpha()
+        self._metaData = json.load(open(f'{self.mediaPath}/{name}/{name}.json'))
 
-        size = self.metaData["meta"]["size"]
-        w = self.sheetWidth = size['w']
-        h = self.sheetHeight = size['h']
+        size = self._metaData["meta"]["size"]
+        w = self._sheetWidth = size['w']
+        h = self._sheetHeight = size['h']
         self.frames = w // h
 
         self.cells = []
         for i in range(self.frames):
-            frame = self.metaData["frames"][f'{i}.']["frame"]
-            self.cells.append((frame['x'], frame['y'], frame['w'], frame['h']))
+            frame = self._metaData["frames"][f'{i}.']["frame"]
+            self.cells.append(pygame.rect.Rect((frame['x'], frame['y']), (frame['w'], frame['h'])))
 
-    def drawFrame(self, surface, i, x, y):
-        # frame = self.metaData["frames"][f'{i}.']["frame"]
-        surface.blit(self.sheet, (x, y), self.cells[i])
+        self.images = []
+        for i in range(self.frames):
+            self.images.append(self._getImage(self.cells[i]))
 
-    def scale(self, n=2):
-        self.sheetWidth *= n
-        self.sheetHeight *= n
-        self.sheet = pygame.transform.scale(self.sheet, (self.sheetWidth, self.sheetHeight))
+        self.once = False
+        f = self.currentFrame = 0
+        self.image = self.images[f]
+        self.rect = self.cells[f]
+
+    def _getImage(self, rect):
+        image = pygame.Surface((rect.w, rect.h), pygame.SRCALPHA, 32)
+        image = image.convert_alpha()
+        image.blit(self._sheet, (0, 0), rect)
+        return image
+
+
+class Sprites(pygame.sprite.Sprite, SpriteSheet):
+    mediaPath = os.getcwd() + '/media'
+
+    def __init__(self, name, frames=0):
+        pygame.sprite.Sprite.__init__(self)
+        if frames == 0:
+            SpriteSheet.__init__(self, name)
+        else:
+            self.frames = frames
+            if frames != 1:
+                self.images = list(
+                    [pygame.image.load(f'{self.mediaPath}/{name}/{name}{i + 1}.png').convert_alpha() for i in range(frames)]
+                )
+            else:
+                self.images = [pygame.image.load(f'{self.mediaPath}/{name}/{name}.png').convert_alpha()]
+
+            self.cells = list(
+                [self.images[i].get_rect() for i in range(frames)]
+            )
+
+            self.once = False
+            f = self.currentFrame = 0
+            self.image = self.images[f]
+            self.rect: pygame.Rect = self.cells[f]
+
+    def scale(self, n=4):
+        for i in range(self.frames):
+            self.cells[i].w *= n
+            self.cells[i].h *= n
 
         for i in range(self.frames):
-            self.cells[i] = tuple([k * n for k in self.cells[i]])
+            self.images[i] = pygame.transform.scale(self.images[i], (self.cells[i].w, self.cells[i].h))
 
-    def animate(self, screen, x, y, fps):
-        for index in range(self.frames):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit(0)
+    def update(self, x=0, y=0, once=False):
+        self.once = once
+        f = self.currentFrame = (self.currentFrame + 1) % self.frames
 
-            pygame.time.Clock().tick(fps)
-            screen.fill((255, 255, 255))
-            self.drawFrame(screen, index, x, y)
-            pygame.display.update()
+        if once and f == 0:
+            self.once = False
+            return
+
+        self.image = self.images[f]
+        self.rect = self.cells[f]
+        self.rect.x = x
+        self.rect.y = y
