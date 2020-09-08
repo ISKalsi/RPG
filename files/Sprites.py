@@ -101,20 +101,23 @@ class Sprites(pygame.sprite.Sprite, SpriteSheet):
 
 
 class Cloud(Sprites):
-    def __init__(self, name, frames=0, path=''):
-        super(Cloud, self).__init__(name, frames, path)
-        self.velocity = 0
-        self.newCloud(frames)
+    flag = False
 
-    def newCloud(self, frames):
+    def __init__(self, name, frames=0, path='', offset=-1):
+        super(Cloud, self).__init__(name, frames, path)
+        self.velocity = 3
+        self.newCloud(frames, offset)
+
+    def newCloud(self, frames, offset=-1):
         f = self.currentFrame = randrange(frames)
         self.scale(randrange(5, 7), True)
         self.image = self.images[f]
         self.rect = self.cells[f]
 
-        self.velocity = uniform(2, 5)
-        self.rect.y = randrange(50, 200)
-        self.rect.x = -self.rect.w
+        # self.velocity = uniform(2, 5)
+        self.rect.y = randrange(50, 130) if Cloud.flag else randrange(130, 250)
+        self.rect.x = -self.rect.w if offset == -1 else offset*300
+        Cloud.flag = not Cloud.flag
 
     def update(self):
         if self.rect.x >= K.width:
@@ -123,9 +126,9 @@ class Cloud(Sprites):
         self.rect.x += self.velocity
 
 
-class HealthBar(Sprites):
+class SnekHealthBar(Sprites):
     def __init__(self, name, path=''):
-        super(HealthBar, self).__init__(name, 1, path)
+        super(SnekHealthBar, self).__init__(name, 1, path)
         self.health = 1
         b = self.bar = pygame.Surface((int(self.rect.w * 0.627), int(self.rect.h * 0.35)))
         b.fill(K.green)
@@ -136,7 +139,7 @@ class HealthBar(Sprites):
         self.yOffset = self.rect.h // 2.9
 
     def scale(self, n=4, fromOriginal=False):
-        super(HealthBar, self).scale(n, fromOriginal)
+        super(SnekHealthBar, self).scale(n, fromOriginal)
         self.barRect.w *= n
         self.barRect.h *= n
         self.bar = pygame.transform.scale(self.bar, (self.barRect.w, self.barRect.h))
