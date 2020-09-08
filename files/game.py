@@ -1,7 +1,5 @@
-import pygame
-from pygame.locals import *
 import sys
-from files.Sprites import Sprites, Cloud, SnekHealthBar
+from files.library.Elements import *
 from files.constants import Constants as K
 
 # initialization

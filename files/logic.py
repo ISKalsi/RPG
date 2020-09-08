@@ -1,5 +1,4 @@
 import random
-from files.ConsoleInput import ConsoleInput
 
 
 class Weapon:
