@@ -19,13 +19,14 @@ class Weapon:
 
 
 class Player:
-    def __init__(self, name, health, agility, weapon):
+    def __init__(self, name, health, agility, weapon, sprite):
         self.name = name
         self.health = health
         self.agility = agility
         self.weapon = weapon
         self.coins = 0
         self.upgrade_cost = 0
+        self.sprite = sprite
 
     def player_attack(self, p):
         p.health -= self.weapon.generate_damage()

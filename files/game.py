@@ -1,6 +1,7 @@
 import sys
+from files.library.Players import Player
 from files.library.Elements import *
-from files.constants import Constants as K
+
 
 # initialization
 pygame.init()
@@ -11,10 +12,24 @@ clock = pygame.time.Clock()
 bg = Sprites('background', 1)
 bg.scale(6)
 
-attack = Sprites('Stickman_Sword_Attaack', 40)
-still = Sprites('stickman_still')
-coin = Sprites('coin', 12)
-healthBar = SnekHealthBar('snek_healthbar_frame', 'pixel art samples')
+# CHINTU SPRITES
+stickmanSprites = {
+    "attack": Sprites('Stickman_Sword_Attaack', 39),
+    "still": Sprites('stickman_still')
+}
+
+chintuSprites = {
+    "coins": Sprites('coin', 12),
+    "health": SnekHealthBar('snek_healthbar_frame', 'pixel art samples'),
+    "stickman": stickmanSprites
+}
+
+chintu = Player("chintu", 1, 80, None, chintuSprites)
+attack = chintu.sprite["stickman"]["attack"]
+still = chintu.sprite["stickman"]["still"]
+
+coin = chintu.sprite["coins"]
+healthBar = chintu.sprite["health"]
 
 attack.scale(5)
 still.scale(5)
@@ -23,7 +38,7 @@ healthBar.scale(2.3)
 
 background = pygame.sprite.Group(bg)
 allSprites = pygame.sprite.Group(coin, healthBar)
-player = pygame.sprite.Group(still)
+players = pygame.sprite.Group(still)
 triggerOnce = pygame.sprite.Group()
 
 for i in range(10):
@@ -69,7 +84,7 @@ while True:
         # still animation
         # allSprites.update(100, 225, False)
         still.update(100, 225, delay=2)
-        player.draw(screen)
+        players.draw(screen)
 
     allSprites.draw(screen)
     # final update
