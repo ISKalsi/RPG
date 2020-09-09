@@ -17,7 +17,7 @@ stickmanSprites = {
 
 chintuSprites = {
     "coins": Sprites('coin', 12),
-    "health": SnekHealthBar('snek_healthbar_frame', 'pixel art samples', (120, 0)),
+    "health": SnekHealthBar('snek_healthbar_frame', 'pixel art samples'),
     "stickman": stickmanSprites
 }
 
