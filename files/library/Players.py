@@ -19,9 +19,8 @@ class Weapon:
         self.dexterity += level - 1
 
 
-class Player(Sprite):
+class Player:
     def __init__(self, name, health, agility, weapon, sprite):
-        super(Player, self).__init__()
         self.name = name
         self.health = health
         self.agility = agility
@@ -54,10 +53,7 @@ class Player(Sprite):
     # SPRITE METHODS
     def update(self):
         self.sprite["coins"].update(5, 5, delay=2)
-        self.sprite["health"].update(0.99, screen)
-
-    def draw(self):
-        pass
+        self.sprite["health"].update(120, 0, 1)
 
 
 # WEAPONS

@@ -24,9 +24,7 @@ while True:
 
     # bg
     updateBG()
-
-    healthBar.update(120, 0, 0.99)
-    coin.update(5, 5, delay=2)
+    chintu.update()
     ui.draw(screen)
 
     for event in pygame.event.get():

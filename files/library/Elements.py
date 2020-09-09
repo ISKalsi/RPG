@@ -36,6 +36,7 @@ class SnekHealthBar(pygame.sprite.Sprite):
 
         r = self.rect.size = ([int(i*n) for i in self.rect.size])
         self.image = pygame.transform.scale(self.image, r)
+        self.rect.x = 120
 
         b = self.barRect.size = ([int(i*n) for i in self.barRect.size])
         self.bar = pygame.transform.scale(self.bar, b)
