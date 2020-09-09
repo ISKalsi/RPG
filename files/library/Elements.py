@@ -56,6 +56,6 @@ class Cloud(Sprites):
 
     def update(self):
         if self.rect.x >= K.width:
-            self.newCloud(self.frames)
+            self.newCloud()
 
         self.rect.x += self.velocity
