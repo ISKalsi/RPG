@@ -30,10 +30,15 @@ class Player:
         self.sprite = sprite
 
     def player_attack(self, p):
-        p.health -= self.weapon.generate_damage()
-        if p.health <= 0:
-            print(p, "loses")
+        if not p.health:
+            return 0
+
+        x = self.weapon.generate_damage()
+        if p.health - x <= 0:
+            p.health = 0
+            print(p.name, "loses")
         else:
+            p.health -= x
             return p.health
 
     def agility_dodge(self, a):

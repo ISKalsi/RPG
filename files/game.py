@@ -12,7 +12,8 @@ bg.scale(6)
 # CHINTU SPRITES
 stickmanSprites = {
     "attack": Sprites('Stickman_Sword_Attaack', 39),
-    "still": Sprites('stickman_still')
+    "still": Sprites('stickman_still'),
+    "dead": Sprites('dead', 13)
 }
 
 chintuSprites = {

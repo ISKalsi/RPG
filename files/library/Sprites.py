@@ -63,6 +63,7 @@ class Sprites(pygame.sprite.Sprite, SpriteSheet):
             self.originalWidth = self.rect.w
             self.originalHeight = self.rect.h
         self.delay = 0
+        self.dead = False
 
     def scale(self, n=4, fromOriginal=False):
         if fromOriginal:
@@ -78,17 +79,20 @@ class Sprites(pygame.sprite.Sprite, SpriteSheet):
             self.images[i] = pygame.transform.scale(self.images[i], (self.cells[i].w, self.cells[i].h))
 
     def update(self, x=0, y=0, once=False, delay=0):
-        if self.delay:
+        if self.dead:
+            f = self.currentFrame = 12
+        else:
+            if self.delay:
+                self.once = once
+                self.delay -= 1
+                return
+
+            self.delay = delay
             self.once = once
-            self.delay -= 1
-            return
+            f = self.currentFrame = (self.currentFrame + 1) % self.frames
 
-        self.delay = delay
-        self.once = once
-        f = self.currentFrame = (self.currentFrame + 1) % self.frames
-
-        if once and f == 0:
-            self.once = False
+            if once and f == 0:
+                self.once = False
 
         self.image = self.images[f]
         self.rect = self.cells[f]

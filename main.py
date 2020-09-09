@@ -6,23 +6,22 @@ from files.library.Players import Player
 chintu = Player("chintu", 100, 80, WeaponList.HAMMER, chintuSprites)
 mintu = Player("mintu", 100, 90, WeaponList.SPEAR, chintuSprites)
 
-mintu.player_attack(chintu)
-mintu.player_attack(chintu)
-
-
 attack = chintu.sprite["stickman"]["attack"]
 still = chintu.sprite["stickman"]["still"]
+dead = chintu.sprite["stickman"]["dead"]
 coin = chintu.sprite["coins"]
 healthBar = chintu.sprite["health"]
 
 attack.scale(5)
 still.scale(5)
+dead.scale(5)
 coin.scale(2)
 healthBar.scale(2.3)
 
 ui.add(coin, healthBar)
 players.add(still)
 
+flag = False
 # game loop
 while True:
     clock.tick(K.fps)
@@ -38,6 +37,11 @@ while True:
             sys.exit(0)
 
         elif event.type == pygame.KEYDOWN:
+            if flag:
+                print("game over")
+                pygame.quit()
+                sys.exit(0)
+
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LALT] and keys[pygame.K_F4] or keys[pygame.K_LSUPER] and keys[pygame.K_q]:
                 pygame.quit()
@@ -47,7 +51,11 @@ while True:
                 triggerOnce.add(attack)
 
             elif event.key == pygame.K_x:
-                pass
+                if not mintu.player_attack(chintu):
+                    triggerOnce.add(dead)
+                    flag = True
+                else:
+                    print(chintu.health)
 
     if triggerOnce:
         triggerOnce.update(100, 225, True, 2)
@@ -57,11 +65,15 @@ while True:
         if triggerOnce:
             triggerOnce.draw(screen)
         else:
-            continue
+            if chintu.health:
+                continue
+            else:
+                players.remove(still)
+                players.add(dead)
+                dead.dead = True
     else:
         # still animation
-        # allSprites.update(100, 225, False)
-        still.update(100, 225, delay=2)
+        players.update(100, 225, delay=2)
         players.draw(screen)
 
     # final update
