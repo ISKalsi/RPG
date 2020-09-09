@@ -3,7 +3,12 @@ from files.game import *
 from files.library.Players import Player
 
 
-chintu = Player("chintu", 1, 80, None, chintuSprites)
+chintu = Player("chintu", 100, 80, WeaponList.HAMMER, chintuSprites)
+mintu = Player("mintu", 100, 90, WeaponList.SPEAR, chintuSprites)
+
+mintu.player_attack(chintu)
+mintu.player_attack(chintu)
+
 
 attack = chintu.sprite["stickman"]["attack"]
 still = chintu.sprite["stickman"]["still"]

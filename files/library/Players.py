@@ -1,5 +1,4 @@
 import random
-from pygame.sprite import Sprite
 
 
 class Weapon:
@@ -23,6 +22,7 @@ class Player:
     def __init__(self, name, health, agility, weapon, sprite):
         self.name = name
         self.health = health
+        self.maxHealth = health
         self.agility = agility
         self.weapon = weapon
         self.coins = 0
@@ -53,8 +53,4 @@ class Player:
     # SPRITE METHODS
     def update(self):
         self.sprite["coins"].update(5, 5, delay=2)
-        self.sprite["health"].update(120, 0, 1)
-
-
-# WEAPONS
-weapon_list = [Weapon('SWORD', 10, 15), Weapon('HAMMER', 20, 5), Weapon('KATTARS', 5, 20), Weapon('SPEAR', 15, 10)]
+        self.sprite["health"].update(120, 0, self.health/self.maxHealth)

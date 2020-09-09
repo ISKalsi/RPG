@@ -2,7 +2,7 @@ import os
 from files.library.Sprites import Sprites
 from random import randrange
 import pygame
-from files.constants import Constants as K
+from files.constants import *
 
 
 class SnekHealthBar(pygame.sprite.Sprite):
@@ -15,14 +15,15 @@ class SnekHealthBar(pygame.sprite.Sprite):
         w = self.originalWidth = self.frameRect.w
         h = self.originalHeight = self.frameRect.h
 
-        self.xOffset = self.frameRect.w // 5.3
-        self.yOffset = self.frameRect.h // 2.9
+        self.xOffset = w // 5.3
+        self.yOffset = h // 2.9
 
         self.health = 1
 
         b = self.bar = pygame.Surface((int(w * 0.627), int(h * 0.35)))
         b.fill(K.green)
-        self.barRect = b.get_rect()
+        f = self.barRect = b.get_rect()
+        self.barFull = f.w
 
         r = self.image = pygame.surface.Surface(self.frameRect.size, pygame.SRCALPHA).convert_alpha()
         r.blit(self.bar, (self.xOffset, self.yOffset), self.barRect)
@@ -40,6 +41,7 @@ class SnekHealthBar(pygame.sprite.Sprite):
 
         b = self.barRect.size = ([int(i*n) for i in self.barRect.size])
         self.bar = pygame.transform.scale(self.bar, b)
+        self.barFull *= n
 
         self.xOffset = f[0] // 5.3
         self.yOffset = f[1] // 2.9
@@ -48,7 +50,7 @@ class SnekHealthBar(pygame.sprite.Sprite):
         if self.health != health:
             self.health = health
             ratio = health / 1.0
-            self.barRect.w = int(self.barRect.w * ratio)
+            self.barRect.w = int(self.barFull * ratio)
 
             r = self.image
             r.fill(K.transparent)

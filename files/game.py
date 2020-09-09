@@ -1,6 +1,6 @@
 from files.library.Elements import *
 
-# initialization
+# pygame initialization
 pygame.init()
 pygame.display.set_caption("RPG")
 screen = pygame.display.set_mode((K.width, K.height))

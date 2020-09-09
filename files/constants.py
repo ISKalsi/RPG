@@ -1,4 +1,7 @@
-class Constants:
+from files.library.Players import Weapon
+
+
+class K:
     # screen
     width = 1200
     height = 600
@@ -13,3 +16,11 @@ class Constants:
     transparent = (0, 0, 0, 0)
 
     # health bar positions
+
+
+# WEAPONS
+class WeaponList:
+    SWORD = Weapon('SWORD', 10, 15)
+    HAMMER = Weapon('HAMMER', 20, 5)
+    KATTARS = Weapon('KATTARS', 5, 20)
+    SPEAR = Weapon('SPEAR', 15, 10)
