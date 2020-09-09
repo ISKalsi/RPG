@@ -80,17 +80,16 @@ class Sprites(pygame.sprite.Sprite, SpriteSheet):
 
     def update(self, x=0, y=0, once=False, delay=0):
         if self.delay:
+            self.once = once
             self.delay -= 1
             return
-        else:
-            self.delay = delay
 
+        self.delay = delay
         self.once = once
         f = self.currentFrame = (self.currentFrame + 1) % self.frames
 
         if once and f == 0:
             self.once = False
-            return
 
         self.image = self.images[f]
         self.rect = self.cells[f]
