@@ -74,4 +74,3 @@ while True:
     allSprites.draw(screen)
     # final update
     pygame.display.update()
-
