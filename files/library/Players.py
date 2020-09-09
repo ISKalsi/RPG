@@ -1,4 +1,5 @@
 import random
+from pygame.sprite import Sprite
 
 
 class Weapon:
@@ -18,8 +19,9 @@ class Weapon:
         self.dexterity += level - 1
 
 
-class Player:
+class Player(Sprite):
     def __init__(self, name, health, agility, weapon, sprite):
+        super(Player, self).__init__()
         self.name = name
         self.health = health
         self.agility = agility
@@ -48,6 +50,14 @@ class Player:
         self.weapon.upgrade(self.weapon.level + 1)
         self.upgrade_cost += 10 + (self.weapon.level - 2) * 10
         self.coins -= self.upgrade_cost
+
+    # SPRITE METHODS
+    def update(self):
+        self.sprite["coins"].update(5, 5, delay=2)
+        self.sprite["health"].update(0.99, screen)
+
+    def draw(self):
+        pass
 
 
 # WEAPONS

@@ -41,9 +41,9 @@ class Cloud(Sprites):
     def __init__(self, name, frames=0, path='', offset=-1):
         super(Cloud, self).__init__(name, frames, path)
         self.velocity = 3
-        self.newCloud(frames, offset)
+        self.newCloud(offset)
 
-    def newCloud(self, frames, offset=-1):
+    def newCloud(self, offset=-1):
         f = self.currentFrame = randrange(1)
         self.scale(randrange(2, 4), True)
         self.image = self.images[f]
