@@ -25,7 +25,7 @@ while True:
     # bg
     updateBG()
 
-    healthBar.update(0.99, screen)
+    healthBar.update(120, 0, 0.99)
     coin.update(5, 5, delay=2)
     ui.draw(screen)
 
