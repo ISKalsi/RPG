@@ -21,6 +21,7 @@ healthBar.scale(2.3)
 ui.add(coin, healthBar)
 players.add(still)
 
+delay = 2
 flag = False
 # game loop
 while True:
@@ -54,11 +55,12 @@ while True:
                 if not mintu.player_attack(chintu):
                     triggerOnce.add(dead)
                     flag = True
+                    delay = 5
                 else:
                     print(chintu.health)
 
     if triggerOnce:
-        triggerOnce.update(100, 225, True, 2)
+        triggerOnce.update(100, 225, True, delay)
         for sprite in triggerOnce.sprites():
             if not sprite.once:
                 triggerOnce.remove(sprite)
@@ -71,9 +73,11 @@ while True:
                 players.remove(still)
                 players.add(dead)
                 dead.dead = True
+                players.update(100, 225, delay=delay)
+                players.draw(screen)
     else:
         # still animation
-        players.update(100, 225, delay=2)
+        players.update(100, 225, delay=delay)
         players.draw(screen)
 
     # final update
