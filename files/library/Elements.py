@@ -45,13 +45,13 @@ class Cloud(Sprites):
 
     def newCloud(self, frames, offset=-1):
         f = self.currentFrame = randrange(1)
-        self.scale(randrange(5, 7), True)
+        self.scale(randrange(2, 4), True)
         self.image = self.images[f]
         self.rect = self.cells[f]
 
         # self.velocity = uniform(2, 5)
-        self.rect.y = randrange(90, 130) if Cloud.flag else randrange(130, 250)
-        self.rect.x = -self.rect.w if offset == -1 else offset*300
+        self.rect.y = randrange(130, 190) if Cloud.flag else randrange(220, 290)
+        self.rect.x = -self.rect.w if offset == -1 else offset * 120
         Cloud.flag = not Cloud.flag
 
     def update(self):

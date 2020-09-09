@@ -26,7 +26,7 @@ allSprites = pygame.sprite.Group(coin, healthBar)
 player = pygame.sprite.Group(still)
 triggerOnce = pygame.sprite.Group()
 
-for i in range(5):
+for i in range(10):
     background.add(Cloud('cloud samples', 3, 'pixel art samples', i))
 # game loop
 while True:
