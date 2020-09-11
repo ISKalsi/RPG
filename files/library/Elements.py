@@ -1,5 +1,4 @@
-import os
-from files.library.Sprites import Sprites
+from files.library.Sprites import Sprites, Path
 from random import randrange
 import pygame
 from files.constants import *
@@ -8,7 +7,7 @@ from files.constants import *
 class SnekHealthBar(pygame.sprite.Sprite):
     def __init__(self, name, path='', placeAt=(0, 0)):
         super().__init__()
-        self.mediaPath = os.getcwd() + '/files/media/' + path
+        self.mediaPath = Path(__file__).resolve().parent / '../media' / path
 
         self.frame = pygame.image.load(f'{self.mediaPath}/{name}/{name}.png').convert_alpha()
         self.frameRect = self.frame.get_rect()

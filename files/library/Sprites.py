@@ -1,11 +1,11 @@
 import json
-import os
+from pathlib import Path
 import pygame
 
 
 class SpriteSheet:
     def __init__(self, name, path=""):
-        self.mediaPath = os.getcwd() + '/files/media/' + path
+        self.mediaPath = Path(__file__).resolve().parent / '../media' / path
 
         self._sheet = pygame.image.load(f'{self.mediaPath}/{name}/{name}.png').convert_alpha()
         self._metaData = json.load(open(f'{self.mediaPath}/{name}/{name}.json'))
@@ -42,7 +42,8 @@ class Sprites(pygame.sprite.Sprite, SpriteSheet):
         if frames == 0:
             SpriteSheet.__init__(self, name, path)
         else:
-            self.mediaPath = os.getcwd() + '/files/media/' + path
+            self.mediaPath = Path(__file__).resolve().parent / '../media' / path
+
             self.frames = frames
             if frames != 1:
                 self.images = list(
